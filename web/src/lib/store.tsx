@@ -24,6 +24,7 @@ interface StoreContext {
   setPricingMode: (mode: PricingMode) => void;
   userLocation: string | null;
   setUserLocation: (loc: string) => void;
+  loaded: boolean;
 }
 
 const Ctx = createContext<StoreContext | null>(null);
@@ -146,7 +147,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <Ctx.Provider value={{ likes, addLike, removeLike, updateNote, updateStatus, addUserPhoto, removeUserPhoto, pricingMode, setPricingMode: (mode: PricingMode) => { setPricingMode(mode); try { localStorage.setItem("swipestay_pricing", mode); } catch {} }, userLocation, setUserLocation }}>
+    <Ctx.Provider value={{ likes, addLike, removeLike, updateNote, updateStatus, addUserPhoto, removeUserPhoto, pricingMode, setPricingMode: (mode: PricingMode) => { setPricingMode(mode); try { localStorage.setItem("swipestay_pricing", mode); } catch {} }, userLocation, setUserLocation, loaded }}>
       {children}
     </Ctx.Provider>
   );

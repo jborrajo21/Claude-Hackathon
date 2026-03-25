@@ -22,10 +22,11 @@ const LONDON_AREAS = [
 ];
 
 export default function LocationModal() {
-  const { userLocation, setUserLocation } = useStore();
+  const { userLocation, setUserLocation, loaded } = useStore();
   const [customArea, setCustomArea] = useState("");
 
-  if (userLocation !== null) return null;
+  // Wait until localStorage is read before deciding to show modal
+  if (!loaded || userLocation !== null) return null;
 
   function handleAreaClick(area: string) {
     setUserLocation(area);
@@ -40,7 +41,11 @@ export default function LocationModal() {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4"
+      onPointerDown={(e) => e.stopPropagation()}
+      onClick={(e) => e.stopPropagation()}
+    >
       <div className="w-full max-w-sm rounded-2xl bg-white shadow-2xl overflow-hidden">
         {/* Header */}
         <div className="bg-violet-600 px-6 py-5 text-center">

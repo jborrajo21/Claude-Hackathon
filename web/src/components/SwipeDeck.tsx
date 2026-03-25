@@ -139,7 +139,7 @@ export default function SwipeDeck({ listings }: SwipeDeckProps) {
       </div>
 
       {/* Counter */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-1">
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-1 pointer-events-none">
         <div className="flex items-center gap-1.5 rounded-full bg-white/80 backdrop-blur-sm px-4 py-2 shadow-lg">
           {listings.map((_, i) => (
             <div

@@ -99,7 +99,7 @@ export default function SwipeCard({ listing, onSwipe, isTop }: SwipeCardProps) {
   return (
     <motion.div
       className="absolute inset-0 cursor-grab active:cursor-grabbing"
-      style={{ x, rotate, zIndex: isTop ? 10 : 0 }}
+      style={{ x, rotate, zIndex: isTop ? 10 : 0, touchAction: "none" }}
       drag={isTop ? "x" : false}
       dragConstraints={{ left: 0, right: 0 }}
       dragElastic={0.9}
