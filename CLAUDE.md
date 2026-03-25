@@ -23,26 +23,26 @@ SwipeStay is a mobile-first platform (with web app support) for London students 
 - **Image Storage**: AWS S3 vs Cloudinary
 - **Auth Provider**: Custom JWT vs Auth0/Clerk vs university SSO integration
 
-## Key Directories (Planned)
+## Key Directories
 
 ```
-web/                 # Next.js web application
-  src/components/    # UI components (swipe cards, filters, dashboard)
-  src/pages/         # Route pages
-  src/hooks/         # Custom React hooks
-  src/lib/           # API client, utilities
-mobile/              # Mobile app (React Native or Flutter)
-api/                 # Backend API server
-  src/routes/        # Endpoint handlers
-  src/models/        # Database models/schemas
-  src/services/      # Business logic
-  src/middleware/     # Auth, validation
-  migrations/        # DB migrations
-scraper/             # Web scraping pipeline
-  spiders/           # Per-site scrapers
-  pipelines/         # Data cleaning and normalisation
-  config/            # Scraper schedules and target configs
-shared/              # Shared types, constants, validation schemas
+web/                        # Next.js web application (scaffolded, app router)
+  src/app/                  # App router pages and layouts
+  src/components/           # UI components (SwipeCard, SwipeDeck, NoteModal)
+  src/data/                 # Mock data (listings.ts)
+  src/types/                # TypeScript type definitions (listing.ts)
+mobile/                     # Mobile app (React Native or Flutter) [planned]
+api/                        # Backend API server [planned]
+  src/routes/               # Endpoint handlers
+  src/models/               # Database models/schemas
+  src/services/             # Business logic
+  src/middleware/            # Auth, validation
+  migrations/               # DB migrations
+scraper/                    # Web scraping pipeline [planned]
+  spiders/                  # Per-site scrapers
+  pipelines/                # Data cleaning and normalisation
+  config/                   # Scraper schedules and target configs
+shared/                     # Shared types, constants, validation schemas [planned]
 ```
 
 ## Development Guidelines
@@ -134,15 +134,16 @@ npm run lint:fix            # Auto-fix lint issues
 ## Current Status / Roadmap
 
 ### Phase 1 -- Foundation (Current)
-- [ ] Project scaffolding and repo structure
+- [x] Project scaffolding and repo structure
 - [ ] Database schema design (users, listings, swipes, contacts)
 - [ ] Basic API endpoints (auth, listings CRUD, swipe actions)
 - [ ] Web scraper MVP (one source)
-- [ ] Basic web UI with swipe cards
+- [x] Basic web UI with swipe cards
 
 ### Phase 2 -- Core Experience
-- [ ] Full swipe interface with animations
-- [ ] Contact reveal flow
+- [x] Full swipe interface with animations (framer-motion drag gestures, LIKE/NOPE stamps)
+- [x] Contact reveal flow (modal on swipe right with landlord details)
+- [x] Notes on liked listings (optional note input on like)
 - [ ] Tracking dashboard
 - [ ] Filter system (budget, location, type, university)
 - [ ] Multiple scraper sources
