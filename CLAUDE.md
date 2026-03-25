@@ -12,7 +12,7 @@ SwipeStay is a mobile-first platform (with web app support) for London students 
 
 - **Web Frontend**: Next.js with React and Tailwind CSS
 - **Database**: PostgreSQL (primary) + Redis (caching/sessions)
-- **Web Scraper**: Python with Scrapy/BeautifulSoup/Playwright
+- **Web Scraper**: Python with Playwright (browser automation) + BeautifulSoup (parsing) + Pydantic (validation). First source: SpareRoom. JSONL intermediate output, PostgreSQL ingestion via asyncpg.
 - **Containerisation**: Docker + docker-compose for local development
 - **CI/CD**: GitHub Actions
 
@@ -38,10 +38,19 @@ api/                 # Backend API server
   src/services/      # Business logic
   src/middleware/     # Auth, validation
   migrations/        # DB migrations
-scraper/             # Web scraping pipeline
-  spiders/           # Per-site scrapers
-  pipelines/         # Data cleaning and normalisation
-  config/            # Scraper schedules and target configs
+scraper/                     # Web scraping pipeline (Python, implemented)
+  src/scraper/
+    spiders/base.py          # Abstract base spider (Playwright browser management)
+    spiders/spareroom.py     # SpareRoom spider (search + detail pages)
+    parsers/spareroom.py     # SpareRoom HTML parsing (feature-list extraction)
+    exporters/jsonl.py       # JSONL file export + reader
+    exporters/postgres.py    # PostgreSQL upsert ingestion (asyncpg)
+    utils/rate_limit.py      # Randomised delay between requests
+    models.py                # Pydantic Listing schema (price in pence, monthly normalisation)
+    config.py                # URLs, rate limits, defaults
+    main.py                  # CLI entrypoint (click): scrape, preview commands
+  data/raw/                  # JSONL output files (gitignored)
+  tests/fixtures/            # Saved HTML for parser unit tests
 shared/              # Shared types, constants, validation schemas
 ```
 
@@ -88,8 +97,14 @@ cd web && npm run dev
 # Start API server only
 cd api && npm run dev
 
-# Run web scraper
-cd scraper && python main.py
+# Run web scraper (SpareRoom, London, max £1200/mo)
+cd scraper && source .venv/bin/activate && python -m scraper.main scrape
+
+# Scraper with custom options
+python -m scraper.main scrape --where London --max-rent 1000 --max-pages 5
+
+# Preview scraped JSONL data
+python -m scraper.main preview data/raw/listings_*.jsonl
 
 # Run all tests
 npm test                    # JS/TS tests
@@ -134,10 +149,10 @@ npm run lint:fix            # Auto-fix lint issues
 ## Current Status / Roadmap
 
 ### Phase 1 -- Foundation (Current)
-- [ ] Project scaffolding and repo structure
+- [x] Project scaffolding and repo structure
+- [x] Web scraper MVP -- SpareRoom spider (Playwright + BS4, JSONL export, PostgreSQL ingestion)
 - [ ] Database schema design (users, listings, swipes, contacts)
 - [ ] Basic API endpoints (auth, listings CRUD, swipe actions)
-- [ ] Web scraper MVP (one source)
 - [ ] Basic web UI with swipe cards
 
 ### Phase 2 -- Core Experience

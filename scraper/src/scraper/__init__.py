@@ -1,0 +1,1 @@
+"""SwipeStay accommodation scraper."""

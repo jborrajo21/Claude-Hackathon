@@ -61,8 +61,8 @@ Behind the scenes, an automated web scraping pipeline continuously pulls fresh a
 
 | Layer | Technology | Purpose |
 |---|---|---|
-| Web Scraper | Python (Scrapy / BeautifulSoup / Playwright) | Automated collection of accommodation listings from external sources |
-| Task Queue | Celery / Bull | Scheduled and on-demand scraping job orchestration |
+| Web Scraper | Python (Playwright + BeautifulSoup + Pydantic) | Automated collection of accommodation listings from external sources |
+| Data Export | JSONL + PostgreSQL ingestion | Decoupled pipeline: scrape to JSONL, then upsert into database |
 | Storage | AWS S3 / Cloudinary | Image storage for listing photos |
 
 ### Infrastructure
@@ -106,7 +106,10 @@ Behind the scenes, an automated web scraping pipeline continuously pulls fresh a
 
    # Scraper
    cd ../scraper
-   pip install -r requirements.txt
+   python3 -m venv .venv
+   source .venv/bin/activate
+   pip install -e ".[dev]"
+   playwright install chromium
    ```
 
 3. **Set up environment variables**
@@ -142,7 +145,7 @@ Behind the scenes, an automated web scraping pipeline continuously pulls fresh a
    # Or start individually
    npm run dev        # web app
    npm run api:dev    # backend API
-   python scraper/main.py   # scraper
+   cd scraper && source .venv/bin/activate && python -m scraper.main scrape   # scraper
    ```
 
 6. **Open the app**
@@ -176,10 +179,17 @@ swipestay/
 │   │   └── utils/          # Helper functions
 │   └── migrations/         # Database migration files
 │
-├── scraper/                # Web scraping pipeline
-│   ├── spiders/            # Individual site scrapers
-│   ├── pipelines/          # Data cleaning and storage pipelines
-│   └── config/             # Scraper configuration and schedules
+├── scraper/                # Web scraping pipeline (Python, Playwright)
+│   ├── src/scraper/
+│   │   ├── spiders/        # Spider classes (base + per-source)
+│   │   ├── parsers/        # HTML parsing logic (separated for testability)
+│   │   ├── exporters/      # JSONL file export + PostgreSQL ingestion
+│   │   ├── utils/          # Rate limiting, helpers
+│   │   ├── models.py       # Pydantic listing schema
+│   │   ├── config.py       # Scraper settings
+│   │   └── main.py         # CLI entrypoint (click)
+│   ├── data/raw/           # JSONL output (gitignored)
+│   └── tests/fixtures/     # Saved HTML for parser tests
 │
 ├── shared/                 # Shared types, constants, and validation schemas
 ├── docker-compose.yml      # Multi-service Docker configuration
