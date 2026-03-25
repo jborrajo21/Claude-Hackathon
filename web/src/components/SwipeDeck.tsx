@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import SwipeCard from "./SwipeCard";
 import NoteModal from "./NoteModal";
 import { recordSwipe } from "@/lib/swipe";
@@ -15,10 +16,28 @@ interface SwipeDeckProps {
 
 export default function SwipeDeck({ listings }: SwipeDeckProps) {
   const { addLike, likes } = useStore();
+  const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [likedListing, setLikedListing] = useState<Listing | null>(null);
   const [sessionLikeCount, setSessionLikeCount] = useState(0);
   const [gone, setGone] = useState(false);
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+
+  useEffect(() => {
+    async function triggerScrape() {
+      try {
+        await fetch("/api/scrape", { method: "POST" });
+        setLastUpdated(new Date());
+        router.refresh();
+      } catch {
+        // ignore errors — scraping is best-effort
+      }
+    }
+
+    triggerScrape(); // on mount
+    const interval = setInterval(triggerScrape, 5 * 60 * 1000); // every 5 min
+    return () => clearInterval(interval);
+  }, []);
 
   const remaining = listings.slice(currentIndex);
 
@@ -120,7 +139,7 @@ export default function SwipeDeck({ listings }: SwipeDeckProps) {
       </div>
 
       {/* Counter */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20">
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-1">
         <div className="flex items-center gap-1.5 rounded-full bg-white/80 backdrop-blur-sm px-4 py-2 shadow-lg">
           {listings.map((_, i) => (
             <div
@@ -135,6 +154,15 @@ export default function SwipeDeck({ listings }: SwipeDeckProps) {
             />
           ))}
         </div>
+        {lastUpdated && (
+          <p className="text-xs text-gray-400">
+            Updated:{" "}
+            {lastUpdated.toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
+          </p>
+        )}
       </div>
 
       {/* Note modal */}
