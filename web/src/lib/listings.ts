@@ -3,6 +3,7 @@ import { readFileSync, readdirSync } from "fs";
 import { join } from "path";
 import { randomUUID } from "crypto";
 import { Listing } from "@/types/listing";
+import { processListings } from "@/lib/claude-processor";
 
 const LONDON_PREFIXES = new Set([
   // Inner London
@@ -203,5 +204,5 @@ export async function getListings(): Promise<Listing[]> {
     }
   }
 
-  return listings;
+  return processListings(listings);
 }
