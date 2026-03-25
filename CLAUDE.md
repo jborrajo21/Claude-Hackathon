@@ -151,23 +151,20 @@ npm run lint:fix            # Auto-fix lint issues
 
 ### Phase 1 -- Foundation (Current)
 - [x] Project scaffolding and repo structure
-<<<<<<< HEAD
 - [x] Web scraper MVP -- SpareRoom spider (Playwright + BS4, JSONL export, PostgreSQL ingestion)
 - [ ] Database schema design (users, listings, swipes, contacts)
 - [ ] Basic API endpoints (auth, listings CRUD, swipe actions)
-- [ ] Basic web UI with swipe cards
-=======
-- [ ] Database schema design (users, listings, swipes, contacts)
-- [ ] Basic API endpoints (auth, listings CRUD, swipe actions)
-- [ ] Web scraper MVP (one source)
 - [x] Basic web UI with swipe cards
->>>>>>> 888e765 (updated mds)
 
 ### Phase 2 -- Core Experience
 - [x] Full swipe interface with animations (framer-motion drag gestures, LIKE/NOPE stamps)
 - [x] Contact reveal flow (modal on swipe right with landlord details)
 - [x] Notes on liked listings (optional note input on like)
-- [ ] Tracking dashboard
+- [x] Liked listings page with expandable cards, editable notes, contact details
+- [x] Progress tracking page with application pipeline (saved → contacted → viewing → applied → accepted/rejected)
+- [x] Pricing toggle (pcm / pw / pppm / pppw) — persisted, shown across all pages
+- [x] Bottom navigation bar (Swipe / Liked / Progress) with badge count
+- [x] Shared state via React context + localStorage persistence
 - [ ] Filter system (budget, location, type, university)
 - [ ] Multiple scraper sources
 

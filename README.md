@@ -32,8 +32,10 @@ Behind the scenes, an automated web scraping pipeline continuously pulls fresh a
 | **Swipe Interface** | Drag-to-swipe cards with smooth animations, LIKE/NOPE stamps, and a progress indicator. Built with framer-motion. |
 | **Accommodation Details** | Rich listing cards with photos, pricing, location, room info, transport times (tube, bus, bike, walk), amenities, and university proximity. |
 | **Contact Reveal** | Swiping right reveals landlord/agent contact details in a polished modal. |
-| **Notes on Likes** | Add personal notes when liking a listing (e.g. "ask about move-in date"). Notes are shown in the end-of-deck summary. |
-| **Tracking Dashboard** | A personal dashboard to view all liked and contacted accommodations, and track application status in one place. *(planned)* |
+| **Notes on Likes** | Add personal notes when liking a listing (e.g. "ask about move-in date"). Notes are editable on the Liked page. |
+| **Liked Page** | Browse all liked listings with expandable details, transport info, contact details, and inline note editing. |
+| **Progress Tracker** | Track each listing through a pipeline: Saved → Contacted → Viewing Booked → Applied → Accepted/Rejected. Visual progress bar per listing. |
+| **Pricing Toggle** | Switch between pcm, pw, pppm, and pppw pricing modes. Per-person modes divide by bedrooms. Persisted across sessions. |
 | **Web Scraper** | An automated scraping pipeline that collects accommodation listings from various sources and feeds them into the platform. *(planned)* |
 | **Smart Filters** | Filter by budget, location, property type, distance to a specific university, and move-in date. *(planned)* |
 
@@ -164,8 +166,9 @@ swipestay/
 │   ├── src/
 │   │   ├── app/            # App router (layout, page, globals.css)
 │   │   ├── components/     # UI components (SwipeCard, SwipeDeck, NoteModal)
-│   │   ├── data/           # Mock data (listings.ts)
-│   │   └── types/          # TypeScript type definitions (listing.ts)
+│   │   ├── data/           # Mock data (swap for real API later)
+│   │   ├── lib/            # Data fetching layer — single place to connect your API
+│   │   └── types/          # TypeScript type definitions (Listing, SwipeResult)
 │   └── public/             # Static assets
 │
 ├── mobile/                 # React Native / Flutter mobile app
