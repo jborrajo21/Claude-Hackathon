@@ -9,7 +9,11 @@ export const mockListings: Listing[] = [
     bedrooms: 0,
     bathrooms: 1,
     type: "studio",
-    image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&h=1000&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&h=1000&fit=crop",
+      "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&h=1000&fit=crop",
+      "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=800&h=1000&fit=crop",
+    ],
     description: "Bright, newly refurbished studio with floor-to-ceiling windows. Open-plan kitchen with modern appliances. Great natural light throughout.",
     university: "UCL",
     transport: [
@@ -32,7 +36,12 @@ export const mockListings: Listing[] = [
     bedrooms: 2,
     bathrooms: 1,
     type: "shared",
-    image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&h=1000&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&h=1000&fit=crop",
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=1000&fit=crop",
+      "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=800&h=1000&fit=crop",
+      "https://images.unsplash.com/photo-1600573472592-401b489a3cdc?w=800&h=1000&fit=crop",
+    ],
     description: "Charming shared flat above a café on Camden High Street. Two generous double bedrooms with built-in wardrobes. Shared lounge with exposed brick walls.",
     university: "UCL",
     transport: [
@@ -55,7 +64,11 @@ export const mockListings: Listing[] = [
     bedrooms: 1,
     bathrooms: 1,
     type: "flat",
-    image: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&h=1000&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&h=1000&fit=crop",
+      "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=800&h=1000&fit=crop",
+      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&h=1000&fit=crop",
+    ],
     description: "Elegant one-bedroom flat in a period conversion. High ceilings, sash windows, and a private patio. Minutes from museums and Hyde Park.",
     university: "Imperial College",
     transport: [
@@ -78,7 +91,11 @@ export const mockListings: Listing[] = [
     bedrooms: 1,
     bathrooms: 2,
     type: "shared",
-    image: "https://images.unsplash.com/photo-1536376072261-38c75010e6c9?w=800&h=1000&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1536376072261-38c75010e6c9?w=800&h=1000&fit=crop",
+      "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800&h=1000&fit=crop",
+      "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=800&h=1000&fit=crop",
+    ],
     description: "Double room in a converted warehouse with 3 other students. Industrial-chic interiors, communal roof terrace, and a massive shared kitchen.",
     university: "Queen Mary",
     transport: [
@@ -101,7 +118,12 @@ export const mockListings: Listing[] = [
     bedrooms: 1,
     bathrooms: 1,
     type: "hall",
-    image: "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=800&h=1000&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=800&h=1000&fit=crop",
+      "https://images.unsplash.com/photo-1600607687644-aac4c3eac7f4?w=800&h=1000&fit=crop",
+      "https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=800&h=1000&fit=crop",
+      "https://images.unsplash.com/photo-1600585154363-67eb9e2e2099?w=800&h=1000&fit=crop",
+    ],
     description: "Purpose-built student hall with en-suite bathroom. Common room, study spaces, and 24/7 security. All bills included. Right in the heart of London's university district.",
     university: "UCL",
     transport: [
@@ -124,7 +146,11 @@ export const mockListings: Listing[] = [
     bedrooms: 2,
     bathrooms: 2,
     type: "flat",
-    image: "https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=800&h=1000&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=800&h=1000&fit=crop",
+      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&h=1000&fit=crop",
+      "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800&h=1000&fit=crop",
+    ],
     description: "Top-floor flat with panoramic views of the Shard. Two double bedrooms, two bathrooms, and a wrap-around balcony. Modern throughout.",
     university: "King's College London",
     transport: [
@@ -147,7 +173,11 @@ export const mockListings: Listing[] = [
     bedrooms: 1,
     bathrooms: 1,
     type: "shared",
-    image: "https://images.unsplash.com/photo-1598928506311-c55ez637a57a?w=800&h=1000&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=1000&fit=crop",
+      "https://images.unsplash.com/photo-1600573472592-401b489a3cdc?w=800&h=1000&fit=crop",
+      "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=800&h=1000&fit=crop",
+    ],
     description: "Budget-friendly single room in a friendly house share. Close to Westfield and the Olympic Park. Good transport links to central London.",
     university: "University of East London",
     transport: [
@@ -170,7 +200,12 @@ export const mockListings: Listing[] = [
     bedrooms: 1,
     bathrooms: 1,
     type: "flat",
-    image: "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=800&h=1000&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=800&h=1000&fit=crop",
+      "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=800&h=1000&fit=crop",
+      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&h=1000&fit=crop",
+      "https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=800&h=1000&fit=crop",
+    ],
     description: "Beautiful one-bedroom in a converted Victorian townhouse. Original fireplaces, wooden floors, and a private courtyard garden. Quiet residential street.",
     university: "City, University of London",
     transport: [
