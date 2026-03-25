@@ -3,6 +3,7 @@ import { Geist } from "next/font/google";
 import "./globals.css";
 import { StoreProvider } from "@/lib/store";
 import AppShell from "@/components/AppShell";
+import LocationModal from "@/components/LocationModal";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,6 +32,7 @@ export default function RootLayout({
     <html lang="en" className={`${geistSans.variable} h-full`}>
       <body className="h-full overflow-hidden">
         <StoreProvider>
+          <LocationModal />
           <AppShell>{children}</AppShell>
         </StoreProvider>
       </body>

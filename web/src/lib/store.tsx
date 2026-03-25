@@ -22,6 +22,8 @@ interface StoreContext {
   removeUserPhoto: (listingId: string, index: number) => void;
   pricingMode: PricingMode;
   setPricingMode: (mode: PricingMode) => void;
+  userLocation: string | null;
+  setUserLocation: (loc: string) => void;
 }
 
 const Ctx = createContext<StoreContext | null>(null);
@@ -61,12 +63,15 @@ function saveLikes(likes: LikedListing[]) {
 export function StoreProvider({ children }: { children: ReactNode }) {
   const [likes, setLikes] = useState<LikedListing[]>([]);
   const [pricingMode, setPricingMode] = useState<PricingMode>("pcm");
+  const [userLocation, setUserLocationState] = useState<string | null>(null);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     setLikes(loadLikes());
     const savedMode = localStorage.getItem("swipestay_pricing") as PricingMode | null;
     if (savedMode) setPricingMode(savedMode);
+    const savedLocation = localStorage.getItem("swipestay_location");
+    if (savedLocation) setUserLocationState(savedLocation);
     setLoaded(true);
   }, []);
 
@@ -133,8 +138,15 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     );
   }, []);
 
+  const setUserLocation = useCallback((loc: string) => {
+    setUserLocationState(loc);
+    try {
+      localStorage.setItem("swipestay_location", loc);
+    } catch {}
+  }, []);
+
   return (
-    <Ctx.Provider value={{ likes, addLike, removeLike, updateNote, updateStatus, addUserPhoto, removeUserPhoto, pricingMode, setPricingMode: (mode: PricingMode) => { setPricingMode(mode); try { localStorage.setItem("swipestay_pricing", mode); } catch {} } }}>
+    <Ctx.Provider value={{ likes, addLike, removeLike, updateNote, updateStatus, addUserPhoto, removeUserPhoto, pricingMode, setPricingMode: (mode: PricingMode) => { setPricingMode(mode); try { localStorage.setItem("swipestay_pricing", mode); } catch {} }, userLocation, setUserLocation }}>
       {children}
     </Ctx.Provider>
   );
