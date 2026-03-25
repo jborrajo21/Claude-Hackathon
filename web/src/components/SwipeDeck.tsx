@@ -5,7 +5,7 @@ import { AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import SwipeCard from "./SwipeCard";
 import NoteModal from "./NoteModal";
-import { recordSwipe } from "@/lib/listings";
+import { recordSwipe } from "@/lib/swipe";
 import { useStore } from "@/lib/store";
 import { Listing } from "@/types/listing";
 
