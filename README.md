@@ -29,24 +29,26 @@ Behind the scenes, an automated web scraping pipeline continuously pulls fresh a
 
 | Feature | Description |
 |---|---|
-| **Swipe Interface** | Tinder-style card swiping to browse flats, shared accommodation, and student halls quickly and intuitively. |
-| **Accommodation Details** | Rich listing cards with photos, pricing, location on map, amenities, and distance to nearby universities. |
-| **Contact Reveal** | When a student swipes right on a property, landlord or letting agent contact details are immediately displayed. |
-| **Tracking Dashboard** | A personal dashboard to view all liked and contacted accommodations, and track application status in one place. |
-| **Web Scraper** | An automated scraping pipeline that collects accommodation listings from various sources and feeds them into the platform. |
-| **Smart Filters** | Filter by budget, location, property type, distance to a specific university, and move-in date. |
+| **Swipe Interface** | Drag-to-swipe cards with smooth animations, LIKE/NOPE stamps, and a progress indicator. Built with framer-motion. |
+| **Accommodation Details** | Rich listing cards with photos, pricing, location, room info, transport times (tube, bus, bike, walk), amenities, and university proximity. |
+| **Contact Reveal** | Swiping right reveals landlord/agent contact details in a polished modal. |
+| **Notes on Likes** | Add personal notes when liking a listing (e.g. "ask about move-in date"). Notes are shown in the end-of-deck summary. |
+| **Tracking Dashboard** | A personal dashboard to view all liked and contacted accommodations, and track application status in one place. *(planned)* |
+| **Web Scraper** | An automated scraping pipeline that collects accommodation listings from various sources and feeds them into the platform. *(planned)* |
+| **Smart Filters** | Filter by budget, location, property type, distance to a specific university, and move-in date. *(planned)* |
 
 ---
 
-## Tech Stack (Proposed)
+## Tech Stack
 
 ### Frontend
 
 | Layer | Technology | Purpose |
 |---|---|---|
-| Mobile App | React Native *or* Flutter | Cross-platform mobile experience (iOS and Android) |
-| Web App | React / Next.js | Server-rendered web interface with responsive design |
-| Styling | Tailwind CSS | Utility-first styling for rapid UI development |
+| Mobile App | React Native *or* Flutter | Cross-platform mobile experience (iOS and Android) *(planned)* |
+| Web App | Next.js 16 (App Router) + React 19 | Server-rendered web interface with responsive design |
+| Styling | Tailwind CSS v4 | Utility-first styling for rapid UI development |
+| Animations | framer-motion | Swipe gestures, card transitions, and modal animations |
 
 ### Backend
 
@@ -154,17 +156,16 @@ Behind the scenes, an automated web scraping pipeline continuously pulls fresh a
 
 ---
 
-## Project Structure (Proposed)
+## Project Structure
 
 ```
 swipestay/
 ├── web/                    # Next.js web application
 │   ├── src/
-│   │   ├── components/     # Reusable UI components (swipe cards, filters, etc.)
-│   │   ├── pages/          # Route-level page components
-│   │   ├── hooks/          # Custom React hooks
-│   │   ├── lib/            # Utility functions and API client
-│   │   └── styles/         # Global styles and Tailwind config
+│   │   ├── app/            # App router (layout, page, globals.css)
+│   │   ├── components/     # UI components (SwipeCard, SwipeDeck, NoteModal)
+│   │   ├── data/           # Mock data (listings.ts)
+│   │   └── types/          # TypeScript type definitions (listing.ts)
 │   └── public/             # Static assets
 │
 ├── mobile/                 # React Native / Flutter mobile app

@@ -23,21 +23,22 @@ SwipeStay is a mobile-first platform (with web app support) for London students 
 - **Image Storage**: AWS S3 vs Cloudinary
 - **Auth Provider**: Custom JWT vs Auth0/Clerk vs university SSO integration
 
-## Key Directories (Planned)
+## Key Directories
 
 ```
-web/                 # Next.js web application
-  src/components/    # UI components (swipe cards, filters, dashboard)
-  src/pages/         # Route pages
-  src/hooks/         # Custom React hooks
-  src/lib/           # API client, utilities
-mobile/              # Mobile app (React Native or Flutter)
-api/                 # Backend API server
-  src/routes/        # Endpoint handlers
-  src/models/        # Database models/schemas
-  src/services/      # Business logic
-  src/middleware/     # Auth, validation
-  migrations/        # DB migrations
+web/                        # Next.js web application (scaffolded, app router)
+  src/app/                  # App router pages and layouts (/, /liked, /progress)
+  src/components/           # UI components (SwipeCard, SwipeDeck, NoteModal, AppShell, BottomNav, PriceToggle, GalleryModal)
+  src/data/                 # Mock data (mock-listings.ts) — delete when real API is connected
+  src/lib/                  # Data fetching (listings.ts), state (store.tsx), pricing utils (pricing.ts)
+  src/types/                # TypeScript type definitions (listing.ts)
+mobile/                     # Mobile app (React Native or Flutter) [planned]
+api/                        # Backend API server [planned]
+  src/routes/               # Endpoint handlers
+  src/models/               # Database models/schemas
+  src/services/             # Business logic
+  src/middleware/            # Auth, validation
+  migrations/               # DB migrations
 scraper/                     # Web scraping pipeline (Python, implemented)
   src/scraper/
     spiders/base.py          # Abstract base spider (Playwright browser management)
@@ -51,7 +52,7 @@ scraper/                     # Web scraping pipeline (Python, implemented)
     main.py                  # CLI entrypoint (click): scrape, preview commands
   data/raw/                  # JSONL output files (gitignored)
   tests/fixtures/            # Saved HTML for parser unit tests
-shared/              # Shared types, constants, validation schemas
+shared/                      # Shared types, constants, validation schemas [planned]
 ```
 
 ## Development Guidelines
@@ -150,14 +151,22 @@ npm run lint:fix            # Auto-fix lint issues
 
 ### Phase 1 -- Foundation (Current)
 - [x] Project scaffolding and repo structure
+<<<<<<< HEAD
 - [x] Web scraper MVP -- SpareRoom spider (Playwright + BS4, JSONL export, PostgreSQL ingestion)
 - [ ] Database schema design (users, listings, swipes, contacts)
 - [ ] Basic API endpoints (auth, listings CRUD, swipe actions)
 - [ ] Basic web UI with swipe cards
+=======
+- [ ] Database schema design (users, listings, swipes, contacts)
+- [ ] Basic API endpoints (auth, listings CRUD, swipe actions)
+- [ ] Web scraper MVP (one source)
+- [x] Basic web UI with swipe cards
+>>>>>>> 888e765 (updated mds)
 
 ### Phase 2 -- Core Experience
-- [ ] Full swipe interface with animations
-- [ ] Contact reveal flow
+- [x] Full swipe interface with animations (framer-motion drag gestures, LIKE/NOPE stamps)
+- [x] Contact reveal flow (modal on swipe right with landlord details)
+- [x] Notes on liked listings (optional note input on like)
 - [ ] Tracking dashboard
 - [ ] Filter system (budget, location, type, university)
 - [ ] Multiple scraper sources
