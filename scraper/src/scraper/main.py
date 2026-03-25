@@ -9,7 +9,7 @@ import click
 
 from scraper.config import DATA_DIR, MAX_PAGES
 from scraper.exporters.jsonl import JSONLExporter
-from scraper.spiders.spareroom import SpareRoomSpider
+from scraper.spiders.zoopla import ZooplaSpider
 
 logging.basicConfig(
     level=logging.INFO,
@@ -19,16 +19,14 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-async def run_spareroom(
-    where: str,
+async def run_zoopla(
     max_rent: int,
     max_pages: int,
     output_dir: Path,
     headless: bool,
 ) -> Path:
-    """Run the SpareRoom spider and export results to JSONL."""
-    spider = SpareRoomSpider(
-        where=where,
+    """Run the Zoopla spider and export results to JSONL."""
+    spider = ZooplaSpider(
         max_rent=max_rent,
         max_pages=max_pages,
         headless=headless,
@@ -53,18 +51,16 @@ def cli():
 
 
 @cli.command()
-@click.option("--where", default="London", help="Location to search")
-@click.option("--max-rent", default=1200, type=int, help="Max monthly rent in GBP")
+@click.option("--max-rent", default=1500, type=int, help="Max monthly rent in GBP")
 @click.option("--max-pages", default=MAX_PAGES, type=int, help="Max search pages to scrape")
 @click.option("--output-dir", default=str(DATA_DIR), type=click.Path(), help="Output directory")
 @click.option("--no-headless", is_flag=True, help="Show browser window")
-def scrape(where: str, max_rent: int, max_pages: int, output_dir: str, no_headless: bool):
-    """Scrape SpareRoom for accommodation listings."""
-    click.echo(f"Scraping SpareRoom for '{where}' (max £{max_rent}/mo, {max_pages} pages)")
+def scrape(max_rent: int, max_pages: int, output_dir: str, no_headless: bool):
+    """Scrape Zoopla for London accommodation listings."""
+    click.echo(f"Scraping Zoopla for London (max £{max_rent}/mo, {max_pages} pages)")
 
     filepath = asyncio.run(
-        run_spareroom(
-            where=where,
+        run_zoopla(
             max_rent=max_rent,
             max_pages=max_pages,
             output_dir=Path(output_dir),

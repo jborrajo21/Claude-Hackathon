@@ -21,6 +21,10 @@ USER_AGENT = (
 SPAREROOM_BASE_URL = "https://www.spareroom.co.uk"
 SPAREROOM_SEARCH_URL = f"{SPAREROOM_BASE_URL}/flatshare"
 
+# Zoopla settings
+ZOOPLA_BASE_URL = "https://www.zoopla.co.uk"
+ZOOPLA_SEARCH_URL = f"{ZOOPLA_BASE_URL}/to-rent/property/london/"
+
 # Default search parameters for London student accommodation
 DEFAULT_SEARCH_PARAMS = {
     "max_rent": 1200,  # Monthly max in GBP
