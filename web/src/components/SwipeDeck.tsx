@@ -2,64 +2,65 @@
 
 import { useState, useCallback } from "react";
 import { AnimatePresence } from "framer-motion";
+import Link from "next/link";
 import SwipeCard from "./SwipeCard";
 import NoteModal from "./NoteModal";
-import { mockListings } from "@/data/listings";
-import { Listing, SwipeResult } from "@/types/listing";
+import { recordSwipe } from "@/lib/listings";
+import { useStore } from "@/lib/store";
+import { Listing } from "@/types/listing";
 
-export default function SwipeDeck() {
+interface SwipeDeckProps {
+  listings: Listing[];
+}
+
+export default function SwipeDeck({ listings }: SwipeDeckProps) {
+  const { addLike, likes } = useStore();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [likedListing, setLikedListing] = useState<Listing | null>(null);
-  const [results, setResults] = useState<SwipeResult[]>([]);
+  const [sessionLikeCount, setSessionLikeCount] = useState(0);
   const [gone, setGone] = useState(false);
 
-  const remaining = mockListings.slice(currentIndex);
+  const remaining = listings.slice(currentIndex);
+
+  const advance = useCallback(() => {
+    setCurrentIndex((i) => {
+      if (i + 1 >= listings.length) setGone(true);
+      return i + 1;
+    });
+  }, [listings.length]);
 
   const handleSwipe = useCallback(
     (direction: "left" | "right") => {
-      const listing = mockListings[currentIndex];
+      const listing = listings[currentIndex];
       if (direction === "right") {
         setLikedListing(listing);
       } else {
-        setResults((prev) => [...prev, { listing, direction }]);
-        setCurrentIndex((i) => {
-          if (i + 1 >= mockListings.length) setGone(true);
-          return i + 1;
-        });
+        recordSwipe(listing.id, "left");
+        advance();
       }
     },
-    [currentIndex]
+    [currentIndex, listings, advance]
   );
 
   const handleNoteSubmit = (note: string) => {
     if (likedListing) {
-      setResults((prev) => [
-        ...prev,
-        { listing: likedListing, direction: "right", note: note || undefined },
-      ]);
+      recordSwipe(likedListing.id, "right", note || undefined);
+      addLike(likedListing, note || undefined);
+      setSessionLikeCount((c) => c + 1);
     }
     setLikedListing(null);
-    setCurrentIndex((i) => {
-      if (i + 1 >= mockListings.length) setGone(true);
-      return i + 1;
-    });
+    advance();
   };
 
   const handleNoteSkip = () => {
     if (likedListing) {
-      setResults((prev) => [
-        ...prev,
-        { listing: likedListing, direction: "right" },
-      ]);
+      recordSwipe(likedListing.id, "right");
+      addLike(likedListing);
+      setSessionLikeCount((c) => c + 1);
     }
     setLikedListing(null);
-    setCurrentIndex((i) => {
-      if (i + 1 >= mockListings.length) setGone(true);
-      return i + 1;
-    });
+    advance();
   };
-
-  const liked = results.filter((r) => r.direction === "right");
 
   if (gone) {
     return (
@@ -70,54 +71,34 @@ export default function SwipeDeck() {
         <h2 className="text-2xl font-bold text-gray-900 mb-2">
           All caught up!
         </h2>
-        <p className="text-gray-500 mb-8 max-w-xs">
+        <p className="text-gray-500 mb-2 max-w-xs">
           You&apos;ve seen all available listings. Check back later for new ones.
         </p>
-        {liked.length > 0 && (
-          <div className="w-full max-w-sm">
-            <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
-              Your liked listings ({liked.length})
-            </h3>
-            <div className="space-y-2">
-              {liked.map((r) => (
-                <div
-                  key={r.listing.id}
-                  className="rounded-2xl bg-white border border-gray-100 p-4 text-left shadow-sm"
-                >
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <p className="font-semibold text-gray-900 text-sm">
-                        {r.listing.title}
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        £{r.listing.price}/mo · {r.listing.location}
-                      </p>
-                    </div>
-                    <span className="text-emerald-500 text-lg">💜</span>
-                  </div>
-                  {r.note && (
-                    <p className="mt-2 text-xs text-violet-600 bg-violet-50 rounded-lg px-3 py-2">
-                      {r.note}
-                    </p>
-                  )}
-                  <div className="mt-2 text-xs text-gray-400">
-                    {r.listing.landlordEmail}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+        {sessionLikeCount > 0 && (
+          <p className="text-sm text-violet-600 font-medium mb-6">
+            You liked {sessionLikeCount} listing{sessionLikeCount !== 1 && "s"} this session
+          </p>
         )}
-        <button
-          onClick={() => {
-            setCurrentIndex(0);
-            setResults([]);
-            setGone(false);
-          }}
-          className="mt-8 rounded-2xl bg-violet-600 px-8 py-3 text-sm font-semibold text-white hover:bg-violet-700 transition-colors"
-        >
-          Start Over
-        </button>
+        <div className="flex gap-3">
+          {likes.length > 0 && (
+            <Link
+              href="/liked"
+              className="rounded-2xl bg-violet-600 px-6 py-3 text-sm font-semibold text-white hover:bg-violet-700 transition-colors"
+            >
+              View Liked ({likes.length})
+            </Link>
+          )}
+          <button
+            onClick={() => {
+              setCurrentIndex(0);
+              setSessionLikeCount(0);
+              setGone(false);
+            }}
+            className="rounded-2xl border border-gray-200 px-6 py-3 text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors"
+          >
+            Start Over
+          </button>
+        </div>
       </div>
     );
   }
@@ -141,7 +122,7 @@ export default function SwipeDeck() {
       {/* Counter */}
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20">
         <div className="flex items-center gap-1.5 rounded-full bg-white/80 backdrop-blur-sm px-4 py-2 shadow-lg">
-          {mockListings.map((_, i) => (
+          {listings.map((_, i) => (
             <div
               key={i}
               className={`h-1.5 rounded-full transition-all duration-300 ${

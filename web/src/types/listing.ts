@@ -12,7 +12,7 @@ export interface Listing {
   bedrooms: number;
   bathrooms: number;
   type: "flat" | "shared" | "studio" | "hall";
-  image: string;
+  images: string[];
   description: string;
   university: string;
   transport: TransportTime[];
@@ -27,4 +27,20 @@ export interface SwipeResult {
   listing: Listing;
   direction: "left" | "right";
   note?: string;
+}
+
+export type ApplicationStatus =
+  | "saved"
+  | "contacted"
+  | "viewing_booked"
+  | "applied"
+  | "accepted"
+  | "rejected";
+
+export interface LikedListing {
+  listing: Listing;
+  note?: string;
+  likedAt: string;
+  status: ApplicationStatus;
+  userPhotos: string[];
 }
